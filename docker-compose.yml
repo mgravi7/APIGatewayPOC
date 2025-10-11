@@ -1,0 +1,44 @@
+services:
+  # API Gateway (Envoy)
+  gateway:
+    build:
+      context: ./services/gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "9901:9901"  # Envoy admin interface
+    depends_on:
+      - customer-service
+      - product-service
+    networks:
+      - microservices-network
+
+  # Customer Service
+  customer-service:
+    build:
+      context: ./services/customer-service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    environment:
+      - SERVICE_NAME=customer-service
+      - SERVICE_PORT=8000
+    networks:
+      - microservices-network
+
+  # Product Service
+  product-service:
+    build:
+      context: ./services/product-service
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8000"
+    environment:
+      - SERVICE_NAME=product-service
+      - SERVICE_PORT=8000
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge
