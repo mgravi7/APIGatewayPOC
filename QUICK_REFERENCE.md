@@ -1,6 +1,6 @@
 # Quick Reference Guide - APIGatewayPOC
 
-## ?? Common Commands
+##  Common Commands
 
 ### Start Services
 ```bash
@@ -36,7 +36,7 @@ docker-compose up -d --build customer-service
 docker-compose up -d --build product-service
 ```
 
-## ?? Testing
+##  Testing
 
 ### Run All Tests
 ```bash
@@ -55,7 +55,7 @@ pytest tests/integration/test_api_gateway.py -v
 pytest tests/ --cov=services --cov-report=html
 ```
 
-## ?? Validation
+##  Validation
 
 ### Validate Project Structure
 ```bash
@@ -73,7 +73,7 @@ python -m py_compile services/customer-service/main.py
 python -m py_compile services/product-service/main.py
 ```
 
-## ?? API Endpoints
+##  API Endpoints
 
 ### Through Gateway (http://localhost:8080)
 
@@ -136,7 +136,7 @@ curl http://localhost:9901/config_dump
 curl http://localhost:9901/server_info
 ```
 
-## ?? Troubleshooting
+##  Troubleshooting
 
 ### Services Won't Start
 ```bash
@@ -189,7 +189,7 @@ docker-compose exec product-service /bin/sh
 docker-compose exec gateway /bin/sh
 ```
 
-## ?? Monitoring
+##  Monitoring
 
 ### Check Resource Usage
 ```bash
@@ -207,7 +207,7 @@ docker network ls
 docker network inspect apigatewaypoc_microservices-network
 ```
 
-## ?? Development
+##  Development
 
 ### Install Dependencies Locally (for IDE support)
 ```bash
@@ -245,7 +245,7 @@ pip install flake8
 flake8 services/ tests/
 ```
 
-## ?? Git Commands
+##  Git Commands
 
 ### Check Status
 ```bash
@@ -270,7 +270,7 @@ git diff HEAD
 git checkout -b feature/your-feature-name
 ```
 
-## ?? Port Reference
+##  Port Reference
 
 | Service | Port | Access |
 |---------|------|--------|
@@ -279,7 +279,7 @@ git checkout -b feature/your-feature-name
 | Customer Service | 8001 | http://localhost:8001 |
 | Product Service | 8002 | http://localhost:8002 |
 
-## ?? Documentation Files
+##  Documentation Files
 
 - **README.md** - Main documentation
 - **.copilot-instructions.md** - Development guidelines
@@ -287,7 +287,7 @@ git checkout -b feature/your-feature-name
 - **VERIFICATION_REPORT.md** - Verification details
 - **QUICK_REFERENCE.md** - This file
 
-## ?? Getting Help
+##  Getting Help
 
 ### Check Documentation
 1. Read README.md
