@@ -13,13 +13,13 @@ The application is containerized using Docker and orchestrated with Docker Compo
 ## Architecture
 
 ```
-┌─────────────────┐    ┌─────────────────┐
-│   API Gateway   │    │     Envoy       │
-│  (Port 8080)    │────│   (Port 9901)   │
-└─────────────────┘    └─────────────────┘
-         │                       │
-         │              ┌────────┴────────┐
-         │              │                 │
+┌─────────────────────────────────────┐
+│         API Gateway (Envoy)         │
+│  Port 8080 (API) | Port 9901 (Admin)│
+└─────────────────┬───────────────────┘
+                  │
+         ┌────────┴────────┐
+         │                 │
 ┌─────────────────┐  ┌─────────────────┐ 
 │ Customer Service│  │ Product Service │ 
 │   (Port 8001)   │  │   (Port 8002)   │ 

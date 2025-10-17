@@ -42,6 +42,11 @@ static_resources:
                   prefix: "/customer-service"
                 route:
                   cluster: customer_service
+              - match:
+                  prefix: "/customer-service/health"
+                route:
+                  cluster: customer_service
+
               # Product service routes
               - match:
                   prefix: "/products"
@@ -51,11 +56,10 @@ static_resources:
                   prefix: "/product-service"
                 route:
                   cluster: product_service
-              # Health check routes
               - match:
-                  prefix: "/health"
+                  prefix: "/product-service/health"
                 route:
-                  cluster: customer_service
+                  cluster: product_service
 
   clusters:
   - name: customer_service
