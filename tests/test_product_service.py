@@ -6,7 +6,6 @@ import requests
 
 # Configuration
 GATEWAY_BASE_URL = "http://localhost:8080"
-PRODUCT_SERVICE_URL = "http://localhost:8002"
 
 class TestProductService:
     """Test product service endpoints"""
@@ -14,14 +13,6 @@ class TestProductService:
     def test_health_check_via_gateway(self):
         """Test health check through API Gateway"""
         response = requests.get(f"{GATEWAY_BASE_URL}/products/health")
-        assert response.status_code == 200
-        data = response.json()
-        assert data["status"] == "healthy"
-        assert data["service"] == "product-service"
-    
-    def test_health_check_direct(self):
-        """Test health check directly to service"""
-        response = requests.get(f"{PRODUCT_SERVICE_URL}/health")
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "healthy"
@@ -80,11 +71,3 @@ class TestProductService:
         assert response.status_code == 404
         error = response.json()
         assert "Product not found" in error["detail"]
-    
-    def test_product_service_root_endpoint(self):
-        """Test root endpoint of product service"""
-        response = requests.get(f"{GATEWAY_BASE_URL}/product-service/")
-        assert response.status_code == 200
-        data = response.json()
-        assert data["service"] == "product-service"
-        assert data["version"] == "1.0.0"

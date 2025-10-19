@@ -38,25 +38,13 @@ static_resources:
                   prefix: "/customers"
                 route:
                   cluster: customer_service
-              - match:
-                  prefix: "/customer-service"
-                route:
-                  cluster: customer_service
+
               # Product service routes
               - match:
                   prefix: "/products"
                 route:
                   cluster: product_service
-              - match:
-                  prefix: "/product-service"
-                route:
-                  cluster: product_service
-              # Health check routes
-              - match:
-                  prefix: "/health"
-                route:
-                  cluster: customer_service
-
+                  
   clusters:
   - name: customer_service
     connect_timeout: 30s

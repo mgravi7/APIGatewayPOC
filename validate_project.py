@@ -15,11 +15,11 @@ class ProjectValidator:
     def check_file_exists(self, filepath, required=True):
         """Check if a file exists"""
         if os.path.exists(filepath):
-            print(f"? {filepath}")
+            print(f"{filepath}")
             self.success_count += 1
             return True
         else:
-            msg = f"? Missing: {filepath}"
+            msg = f"Missing: {filepath}"
             if required:
                 self.errors.append(msg)
             else:
@@ -30,11 +30,11 @@ class ProjectValidator:
     def check_directory_exists(self, dirpath):
         """Check if a directory exists"""
         if os.path.isdir(dirpath):
-            print(f"? {dirpath}/")
+            print(f"{dirpath}/")
             self.success_count += 1
             return True
         else:
-            msg = f"? Missing directory: {dirpath}/"
+            msg = f"Missing directory: {dirpath}/"
             self.errors.append(msg)
             print(msg)
             return False
@@ -46,14 +46,14 @@ class ProjectValidator:
         print("=" * 60)
         
         # Root files
-        print("\n?? Root Configuration Files:")
+        print("\nRoot Configuration Files:")
         self.check_file_exists("README.md")
         self.check_file_exists("docker-compose.yml")
         self.check_file_exists(".gitignore")
         self.check_file_exists(".copilot-instructions.md")
         
         # Service directories
-        print("\n?? Service Directories:")
+        print("\nService Directories:")
         self.check_directory_exists("services")
         self.check_directory_exists("services/gateway")
         self.check_directory_exists("services/customer-service")
@@ -61,12 +61,12 @@ class ProjectValidator:
         self.check_directory_exists("services/shared")
         
         # Gateway files
-        print("\n?? Gateway (Envoy) Files:")
+        print("\nGateway (Envoy) Files:")
         self.check_file_exists("services/gateway/Dockerfile")
         self.check_file_exists("services/gateway/envoy.yaml")
         
         # Customer Service files
-        print("\n?? Customer Service Files:")
+        print("\nCustomer Service Files:")
         self.check_file_exists("services/customer-service/Dockerfile")
         self.check_file_exists("services/customer-service/main.py")
         self.check_file_exists("services/customer-service/requirements.txt")
@@ -74,7 +74,7 @@ class ProjectValidator:
         self.check_file_exists("services/customer-service/models/__init__.py")
         
         # Product Service files
-        print("\n?? Product Service Files:")
+        print("\nProduct Service Files:")
         self.check_file_exists("services/product-service/Dockerfile")
         self.check_file_exists("services/product-service/main.py")
         self.check_file_exists("services/product-service/requirements.txt")
@@ -82,12 +82,12 @@ class ProjectValidator:
         self.check_file_exists("services/product-service/models/__init__.py")
         
         # Shared utilities
-        print("\n?? Shared Utilities:")
+        print("\nShared Utilities:")
         self.check_file_exists("services/shared/common.py")
         self.check_file_exists("services/shared/__init__.py")
         
         # Test files
-        print("\n?? Test Files:")
+        print("\nTest Files:")
         self.check_directory_exists("tests")
         self.check_file_exists("tests/__init__.py")
         self.check_file_exists("tests/requirements.txt")
@@ -97,7 +97,7 @@ class ProjectValidator:
         self.check_file_exists("tests/integration/__init__.py")
         
         # Scripts
-        print("\n?? Helper Scripts:")
+        print("\nHelper Scripts:")
         self.check_directory_exists("scripts")
         self.check_file_exists("scripts/setup.sh")
         self.check_file_exists("scripts/start.sh")
@@ -111,7 +111,7 @@ class ProjectValidator:
         print("=" * 60)
         
         # Check docker-compose.yml syntax
-        print("\n?? Docker Compose Configuration:")
+        print("\nDocker Compose Configuration:")
         try:
             import subprocess
             result = subprocess.run(
@@ -120,14 +120,14 @@ class ProjectValidator:
                 text=True
             )
             if result.returncode == 0:
-                print("? docker-compose.yml is valid")
+                print("docker-compose.yml is valid")
                 self.success_count += 1
             else:
-                msg = f"? docker-compose.yml has errors: {result.stderr}"
+                msg = f"docker-compose.yml has errors: {result.stderr}"
                 self.errors.append(msg)
                 print(msg)
         except Exception as e:
-            msg = f"??  Could not validate docker-compose.yml: {e}"
+            msg = f"Could not validate docker-compose.yml: {e}"
             self.warnings.append(msg)
             print(msg)
     
@@ -149,18 +149,18 @@ class ProjectValidator:
         if os.path.exists(".gitignore"):
             with open(".gitignore", "r") as f:
                 content = f.read()
-            
-            print("\n?? Checking essential patterns:")
+
+            print("\nChecking essential patterns:")
             for pattern in essential_patterns:
                 if pattern in content:
-                    print(f"? {pattern}")
+                    print(f"{pattern}")
                     self.success_count += 1
                 else:
-                    msg = f"??  Missing pattern: {pattern}"
+                    msg = f"Missing pattern: {pattern}"
                     self.warnings.append(msg)
                     print(msg)
         else:
-            msg = "? .gitignore file not found"
+            msg = ".gitignore file not found"
             self.errors.append(msg)
             print(msg)
     
@@ -169,22 +169,22 @@ class ProjectValidator:
         print("\n" + "=" * 60)
         print("VALIDATION SUMMARY")
         print("=" * 60)
-        
-        print(f"\n? Successful checks: {self.success_count}")
+
+        print(f"\nSuccessful checks: {self.success_count}")
         
         if self.warnings:
-            print(f"\n??  Warnings ({len(self.warnings)}):")
+            print(f"\nWarnings ({len(self.warnings)}):")
             for warning in self.warnings:
                 print(f"   {warning}")
         
         if self.errors:
-            print(f"\n? Errors ({len(self.errors)}):")
+            print(f"\nErrors ({len(self.errors)}):")
             for error in self.errors:
                 print(f"   {error}")
-            print("\n? VALIDATION FAILED - Please fix the errors above")
+            print("\nVALIDATION FAILED - Please fix the errors above")
             return False
         else:
-            print("\n?? VALIDATION PASSED - All required files are present and configured correctly!")
+            print("\nVALIDATION PASSED - All required files are present and configured correctly!")
             return True
 
 def main():

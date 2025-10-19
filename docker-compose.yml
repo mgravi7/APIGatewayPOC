@@ -16,8 +16,8 @@ services:
   # Customer Service
   customer-service:
     build:
-      context: ./services/customer-service
-      dockerfile: Dockerfile
+      context: ./services
+      dockerfile: customer-service/Dockerfile
     ports:
       - "8001:8000"
     environment:
@@ -29,8 +29,8 @@ services:
   # Product Service
   product-service:
     build:
-      context: ./services/product-service
-      dockerfile: Dockerfile
+      context: ./services
+      dockerfile: product-service/Dockerfile
     ports:
       - "8002:8000"
     environment:

@@ -13,13 +13,13 @@ The application is containerized using Docker and orchestrated with Docker Compo
 ## Architecture
 
 ```
-┌─────────────────┐    ┌─────────────────┐
-│   API Gateway   │    │     Envoy       │
-│  (Port 8080)    │────│   (Port 9901)   │
-└─────────────────┘    └─────────────────┘
-         │                       │
-         │              ┌────────┴────────┐
-         │              │                 │
+┌─────────────────────────────────────┐
+│         API Gateway (Envoy)         │
+│  Port 8080 (API) | Port 9901 (Admin)│
+└─────────────────┬───────────────────┘
+                  │
+         ┌────────┴────────┐
+         │                 │
 ┌─────────────────┐  ┌─────────────────┐ 
 │ Customer Service│  │ Product Service │ 
 │   (Port 8001)   │  │   (Port 8002)   │ 
@@ -58,8 +58,8 @@ The application is containerized using Docker and orchestrated with Docker Compo
 3. **Verify services are running**:
    - API Gateway: http://localhost:8080
    - Envoy Admin: http://localhost:9901
-   - Customer Service: http://localhost:8001
-   - Product Service: http://localhost:8002
+   - Customer Service: http://localhost:8080/customers/health
+   - Product Service: http://localhost:8080/products/health
 
 4. **Test the APIs**:
    ```bash
@@ -144,7 +144,9 @@ APIGatewayPOC/
 ├── tests/
 │   ├── requirements.txt
 │   ├── test_customer_service.py
-│   └── test_product_service.py
+│   ├── test_product_service.py
+│   ├── integration/
+│   │       └── test_integration.py
 └── scripts/
     ├── start.sh
     ├── stop.sh
@@ -169,21 +171,21 @@ APIGatewayPOC/
 
 ## Future Enhancements
 
-### Phase 1: Data Persistence
+### Phase 1: Security & Auth
+- [ ] Implement JWT token authentication
+- [ ] Integrate with Keycloak for identity management
+- [ ] Add role-based access control
+
+### Phase 2: Data Persistence
 - [ ] Add PostgreSQL database
 - [ ] Implement database models and connections
 - [ ] Add data migration scripts
 
-### Phase 2: CRUD Operations
+### Phase 3: CRUD Operations
 - [ ] Add POST endpoints for creating resources
 - [ ] Add PUT endpoints for updating resources  
 - [ ] Add DELETE endpoints for removing resources
 - [ ] Add input validation and error handling
-
-### Phase 3: Security & Auth
-- [ ] Implement JWT token authentication
-- [ ] Integrate with Keycloak for identity management
-- [ ] Add role-based access control
 
 ### Phase 4: Observability
 - [ ] Add distributed tracing with Jaeger
@@ -217,7 +219,7 @@ APIGatewayPOC/
 - **Data Models**: Pydantic
 - **Logging**: Python logging module
 
-## Contributing
+## Contributing (Not now, but probably in the future)
 
 1. Fork the repository
 2. Create a feature branch
@@ -235,7 +237,7 @@ APIGatewayPOC/
 
 ### Tests failing
 - Ensure services are running: `./scripts/start.sh`
-- Check service health: `curl http://localhost:8080/customers/health`
+- Check service health: `curl http://localhost:8080/[service]/health`
 - View logs: `docker-compose logs -f`
 
 ### Performance issues
