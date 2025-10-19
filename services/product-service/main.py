@@ -49,7 +49,7 @@ products_db = [
     )
 ]
 
-@app.get("/health")
+@app.get("/products/health")
 def health_check():
     """Health check endpoint"""
     logger.info("Health check requested")
@@ -78,15 +78,6 @@ def get_products_by_category(category: str):
     filtered_products = [p for p in products_db if p.category.lower() == category.lower()]
     logger.info(f"Found {len(filtered_products)} products in category: {category}")
     return filtered_products
-
-@app.get("/")
-def root():
-    """Root endpoint"""
-    return {
-        "service": "product-service",
-        "version": "1.0.0",
-        "description": "Product management microservice"
-    }
 
 if __name__ == "__main__":
     import uvicorn

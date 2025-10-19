@@ -110,7 +110,7 @@ curl http://localhost:8080/products/health
 ```bash
 curl http://localhost:8001/customers
 curl http://localhost:8001/customers/1
-curl http://localhost:8001/health
+curl http://localhost:8001/customers/health
 ```
 
 #### Product Service (http://localhost:8002)
@@ -118,7 +118,7 @@ curl http://localhost:8001/health
 curl http://localhost:8002/products
 curl http://localhost:8002/products/1
 curl http://localhost:8002/products/category/Electronics
-curl http://localhost:8002/health
+curl http://localhost:8002/products/health
 ```
 
 #### Envoy Admin (http://localhost:9901)

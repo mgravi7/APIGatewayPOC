@@ -35,7 +35,7 @@ customers_db = [
     )
 ]
 
-@app.get("/health")
+@app.get("/customers/health")
 def health_check():
     """Health check endpoint"""
     logger.info("Health check requested")
@@ -56,15 +56,6 @@ def get_customer(customer_id: int):
         logger.warning(f"Customer not found with ID: {customer_id}")
         raise HTTPException(status_code=404, detail="Customer not found")
     return customer
-
-@app.get("/")
-def root():
-    """Root endpoint"""
-    return {
-        "service": "customer-service",
-        "version": "1.0.0",
-        "description": "Customer management microservice"
-    }
 
 if __name__ == "__main__":
     import uvicorn

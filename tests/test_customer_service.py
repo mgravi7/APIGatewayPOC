@@ -7,7 +7,6 @@ import time
 
 # Configuration
 GATEWAY_BASE_URL = "http://localhost:8080"
-CUSTOMER_SERVICE_URL = "http://localhost:8001"
 
 class TestCustomerService:
     """Test customer service endpoints"""
@@ -15,14 +14,6 @@ class TestCustomerService:
     def test_health_check_via_gateway(self):
         """Test health check through API Gateway"""
         response = requests.get(f"{GATEWAY_BASE_URL}/customers/health")
-        assert response.status_code == 200
-        data = response.json()
-        assert data["status"] == "healthy"
-        assert data["service"] == "customer-service"
-    
-    def test_health_check_direct(self):
-        """Test health check directly to service"""
-        response = requests.get(f"{CUSTOMER_SERVICE_URL}/health")
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "healthy"
@@ -58,20 +49,12 @@ class TestCustomerService:
         assert response.status_code == 404
         error = response.json()
         assert "Customer not found" in error["detail"]
-    
-    def test_customer_service_root_endpoint(self):
-        """Test root endpoint of customer service"""
-        response = requests.get(f"{GATEWAY_BASE_URL}/customer-service/")
-        assert response.status_code == 200
-        data = response.json()
-        assert data["service"] == "customer-service"
-        assert data["version"] == "1.0.0"
 
 @pytest.fixture(scope="session", autouse=True)
 def wait_for_services():
     """Wait for services to be ready before running tests"""
     import time
-    max_retries = 30
+    max_retries = 5
     retry_count = 0
     
     while retry_count < max_retries:

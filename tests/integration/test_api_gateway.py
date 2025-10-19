@@ -26,7 +26,7 @@ def test_gateway_routing():
 
 def test_customer_service_health():
     """Test customer service health endpoint"""
-    response = requests.get(f"{BASE_URL}/customer-service/health")
+    response = requests.get(f"{BASE_URL}/customers/health")
     assert response.status_code == 200
     health_data = response.json()
     assert health_data["status"] == "healthy"
@@ -34,7 +34,7 @@ def test_customer_service_health():
 
 def test_product_service_health():
     """Test product service health endpoint"""
-    response = requests.get(f"{BASE_URL}/product-service/health")
+    response = requests.get(f"{BASE_URL}/products/health")
     assert response.status_code == 200
     health_data = response.json()
     assert health_data["status"] == "healthy"
