@@ -24,6 +24,38 @@ static_resources:
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.access_loggers.stream.v3.StdoutAccessLog
           http_filters:
+          # JWT Authentication Filter
+          - name: envoy.filters.http.jwt_authn
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.jwt_authn.v3.JwtAuthentication
+              providers:
+                keycloak_provider:
+                  issuer: http://keycloak:8080/realms/api-gateway-poc
+                  audiences:
+                  - account
+                  remote_jwks:
+                    http_uri:
+                      uri: http://keycloak:8080/realms/api-gateway-poc/protocol/openid-connect/certs
+                      cluster: keycloak_cluster
+                      timeout: 5s
+                    cache_duration:
+                      seconds: 300
+                  forward: true
+                  from_headers:
+                  - name: Authorization
+                    value_prefix: "Bearer "
+              rules:
+              # Require JWT for customer service routes
+              - match:
+                  prefix: /customers
+                requires:
+                  provider_name: keycloak_provider
+              # Require JWT for product service routes
+              - match:
+                  prefix: /products
+                requires:
+                  provider_name: keycloak_provider
+          # Router filter (must be last)
           - name: envoy.filters.http.router
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
@@ -44,8 +76,30 @@ static_resources:
                   prefix: "/products"
                 route:
                   cluster: product_service
+
+              # Keycloak routes (no auth required for auth endpoints)
+              - match:
+                  prefix: "/auth"
+                route:
+                  prefix_rewrite: "/"
+                  cluster: keycloak_cluster
                   
   clusters:
+  - name: keycloak_cluster
+    connect_timeout: 30s
+    type: LOGICAL_DNS
+    dns_lookup_family: V4_ONLY
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: keycloak_cluster
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: keycloak
+                port_value: 8080
+
   - name: customer_service
     connect_timeout: 30s
     type: LOGICAL_DNS

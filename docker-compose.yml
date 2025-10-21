@@ -1,4 +1,29 @@
 services:
+  # Keycloak IAM Service
+  keycloak:
+    build:
+      context: ./services/keycloak
+      dockerfile: Dockerfile
+    ports:
+      - "8180:8080"  # Keycloak HTTP port (mapped to 8180 to avoid conflict with gateway)
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_HTTP_PORT=8080
+      - KC_HOSTNAME_STRICT=false
+      - KC_HOSTNAME_STRICT_HTTPS=false
+      - KC_HTTP_ENABLED=true
+      - KC_HEALTH_ENABLED=true
+      - KC_METRICS_ENABLED=true
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && cat <&3 | grep -q '200 OK'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - microservices-network
+
   # API Gateway (Envoy)
   gateway:
     build:
@@ -8,8 +33,12 @@ services:
       - "8080:8080"
       - "9901:9901"  # Envoy admin interface
     depends_on:
-      - customer-service
-      - product-service
+      keycloak:
+        condition: service_healthy
+      customer-service:
+        condition: service_started
+      product-service:
+        condition: service_started
     networks:
       - microservices-network
 
