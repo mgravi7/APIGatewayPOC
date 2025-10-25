@@ -25,7 +25,7 @@ class TestCustomerService:
         assert response.status_code == 200
         customers = response.json()
         assert isinstance(customers, list)
-        assert len(customers) >= 2  # We have 2 mock customers
+        assert len(customers) >= 7  # We have 7 mock customers
         
         # Check first customer structure
         customer = customers[0]
@@ -36,10 +36,10 @@ class TestCustomerService:
     
     def test_get_customer_by_id_via_gateway(self):
         """Test getting specific customer through API Gateway"""
-        response = requests.get(f"{GATEWAY_BASE_URL}/customers/1")
+        response = requests.get(f"{GATEWAY_BASE_URL}/customers/6")
         assert response.status_code == 200
         customer = response.json()
-        assert customer["id"] == 1
+        assert customer["id"] == 6
         assert customer["name"] == "John Doe"
         assert customer["email"] == "john.doe@example.com"
     

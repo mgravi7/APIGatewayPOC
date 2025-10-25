@@ -26,10 +26,19 @@
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "protocol": "openid-connect",
-      "redirectUris": ["*"],
-      "webOrigins": ["*"],
+      "secret": "gateway-secret-change-in-production",
+      "redirectUris": [
+        "http://localhost:8080/*",
+        "http://localhost:8080/callback",
+        "http://127.0.0.1:8080/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8080",
+        "http://127.0.0.1:8080"
+      ],
       "attributes": {
-        "access.token.lifespan": "300"
+        "access.token.lifespan": "300",
+        "client.secret.creation.time": "1640000000"
       }
     },
     {
@@ -39,7 +48,11 @@
       "publicClient": false,
       "serviceAccountsEnabled": true,
       "bearerOnly": true,
-      "protocol": "openid-connect"
+      "protocol": "openid-connect",
+      "secret": "customer-service-secret-change-in-production",
+      "attributes": {
+        "client.secret.creation.time": "1640000000"
+      }
     },
     {
       "clientId": "product-service",
@@ -48,18 +61,32 @@
       "publicClient": false,
       "serviceAccountsEnabled": true,
       "bearerOnly": true,
-      "protocol": "openid-connect"
+      "protocol": "openid-connect",
+      "secret": "product-service-secret-change-in-production",
+      "attributes": {
+        "client.secret.creation.time": "1640000000"
+      }
     },
     {
       "clientId": "test-client",
       "name": "Test Client for Development",
+      "description": "WARNING: Public client for development only - DISABLE IN PRODUCTION",
       "enabled": true,
       "publicClient": true,
       "directAccessGrantsEnabled": true,
       "standardFlowEnabled": true,
       "protocol": "openid-connect",
-      "redirectUris": ["http://localhost:*"],
-      "webOrigins": ["*"]
+      "redirectUris": [
+        "http://localhost:*",
+        "http://127.0.0.1:*"
+      ],
+      "webOrigins": [
+        "http://localhost:*",
+        "http://127.0.0.1:*"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
     }
   ],
   "roles": {
@@ -134,6 +161,12 @@
   "resetCredentialsFlow": "reset credentials",
   "clientAuthenticationFlow": "clients",
   "dockerAuthenticationFlow": "docker auth",
-  "attributes": {},
+  "attributes": {
+    "failureFactor": "5",
+    "waitIncrementSeconds": "60",
+    "maxFailureWaitSeconds": "900",
+    "maxDeltaTimeSeconds": "43200",
+    "minimumQuickLoginWaitSeconds": "60"
+  },
   "keycloakVersion": "23.0.0"
 }
