@@ -1,6 +1,6 @@
 # Keycloak Integration - Quick Start Guide
 
-## ?? Getting Started
+## Getting Started
 
 ### 1. Start All Services
 ```bash
@@ -19,7 +19,7 @@ Wait until you see: "Keycloak ... started"
 - **Username**: admin
 - **Password**: admin
 
-## ?? Testing Authentication
+## Testing Authentication
 
 ### Option 1: Get Access Token (Direct Grant Flow)
 
@@ -54,7 +54,7 @@ curl -X POST http://localhost:8180/realms/api-gateway-poc/protocol/openid-connec
   -d "grant_type=password"
 ```
 
-## ?? Testing Protected Endpoints
+## Testing Protected Endpoints
 
 ### 1. Try Accessing Without Token (Should Fail)
 ```bash
@@ -81,7 +81,7 @@ curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/customers
 curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/products
 ```
 
-## ?? Verifying JWT Token
+## Verifying JWT Token
 
 You can decode and verify your JWT token at https://jwt.io or using:
 
@@ -90,14 +90,14 @@ You can decode and verify your JWT token at https://jwt.io or using:
 echo $TOKEN | cut -d. -f2 | base64 -d 2>/dev/null | jq .
 ```
 
-## ?? Available Test Users
+## Available Test Users
 
 | Username   | Password   | Roles                                    |
 |------------|-----------|------------------------------------------|
 | testuser   | testpass  | user, customer-manager                   |
 | adminuser  | adminpass | user, admin, customer-manager, product-manager |
 
-## ??? Useful Commands
+## Useful Commands
 
 ### View All Service Logs
 ```bash
@@ -130,7 +130,7 @@ docker-compose down
 docker-compose up -d --build
 ```
 
-## ?? Important Endpoints
+## Important Endpoints
 
 ### Keycloak
 - **Admin Console**: http://localhost:8180
@@ -147,7 +147,7 @@ docker-compose up -d --build
 - **Customer Service**: http://localhost:8001
 - **Product Service**: http://localhost:8002
 
-## ?? Troubleshooting
+## Troubleshooting
 
 ### Issue: "401 Unauthorized" even with token
 **Solutions:**
@@ -179,7 +179,7 @@ docker-compose up -d --build
 2. Ensure Docker has enough resources
 3. Review individual service logs
 
-## ?? Next Steps
+## Next Steps
 
 1. **Implement Role-Based Access Control (RBAC)**
    - Add role checks in Envoy configuration

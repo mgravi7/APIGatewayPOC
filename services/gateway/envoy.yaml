@@ -30,9 +30,8 @@ static_resources:
               "@type": type.googleapis.com/envoy.extensions.filters.http.jwt_authn.v3.JwtAuthentication
               providers:
                 keycloak_provider:
-                  issuer: http://keycloak:8080/realms/api-gateway-poc
-                  audiences:
-                  - account
+                  issuer: http://localhost:8180/realms/api-gateway-poc
+                  # audiences removed - will accept tokens without aud claim
                   remote_jwks:
                     http_uri:
                       uri: http://keycloak:8080/realms/api-gateway-poc/protocol/openid-connect/certs

@@ -73,6 +73,18 @@ curl -H "Authorization: Bearer <ACCESS_TOKEN>" http://localhost:8080/customers
 - **Token Endpoint**: http://localhost:8180/realms/api-gateway-poc/protocol/openid-connect/token
 - **UserInfo Endpoint**: http://localhost:8180/realms/api-gateway-poc/protocol/openid-connect/userinfo
 
+## Environment Variables
+
+The following environment variables are used:
+
+- `KC_BOOTSTRAP_ADMIN_USERNAME`: Admin username (replaces deprecated `KEYCLOAK_ADMIN`)
+- `KC_BOOTSTRAP_ADMIN_PASSWORD`: Admin password (replaces deprecated `KEYCLOAK_ADMIN_PASSWORD`)
+- `KC_HTTP_PORT`: HTTP port (default: 8080)
+- `KC_HOSTNAME_STRICT`: Disable strict hostname checking for development
+- `KC_HTTP_ENABLED`: Enable HTTP (not just HTTPS)
+- `KC_HEALTH_ENABLED`: Enable health endpoints
+- `KC_METRICS_ENABLED`: Enable metrics endpoints
+
 ## Production Considerations
 
 For production deployments, you should:
@@ -109,3 +121,9 @@ To modify the realm configuration:
 - Verify JWKS endpoint is accessible from gateway
 - Check token expiration time
 - Ensure correct realm and client configuration
+
+### Deprecation Warnings
+If you see warnings about deprecated environment variables:
+- Use `KC_BOOTSTRAP_ADMIN_USERNAME` instead of `KEYCLOAK_ADMIN`
+- Use `KC_BOOTSTRAP_ADMIN_PASSWORD` instead of `KEYCLOAK_ADMIN_PASSWORD`
+- Remove `KC_HOSTNAME_STRICT_HTTPS` (deprecated in favor of newer hostname options)
